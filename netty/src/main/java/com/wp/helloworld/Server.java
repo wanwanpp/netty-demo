@@ -12,14 +12,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class Server {
 	public static void main(String[] args) throws Exception {
 		//1 创建线两个程组 
-		//一个是用于处理服务器端接收客户端连接的
-		//一个是进行网络通信的（网络读写的）
-		EventLoopGroup pGroup = new NioEventLoopGroup();
-		EventLoopGroup cGroup = new NioEventLoopGroup();
+		//第一个经常被叫做‘boss’，用来接收进来的连接。
+		// 第二个经常被叫做‘worker’，用来处理已经被接收的连接，
+		// 一旦‘boss’接收到连接，就会把连接信息注册到‘worker’上。
+		EventLoopGroup bossGroup = new NioEventLoopGroup();
+		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		
 		//2 创建辅助工具类，用于服务器通道的一系列配置
 		ServerBootstrap b = new ServerBootstrap();
-		b.group(pGroup, cGroup)		//绑定俩个线程组
+		b.group(bossGroup, workerGroup)		//绑定俩个线程组
 		.channel(NioServerSocketChannel.class)		//指定NIO的模式
 		.option(ChannelOption.SO_BACKLOG, 1024)		//设置tcp缓冲区
 		.option(ChannelOption.SO_SNDBUF, 32*1024)	//设置发送缓冲大小
@@ -39,7 +40,7 @@ public class Server {
 		//5 等待关闭
 		cf1.channel().closeFuture().sync();
 		//cf2.channel().closeFuture().sync();
-		pGroup.shutdownGracefully();
-		cGroup.shutdownGracefully();
+		bossGroup.shutdownGracefully();
+		workerGroup.shutdownGracefully();
 	}
 }

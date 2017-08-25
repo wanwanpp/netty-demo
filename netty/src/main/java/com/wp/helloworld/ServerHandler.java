@@ -22,6 +22,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
         String response = "返回给客户端的响应：" + body;
         ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
 //        .addListener(ChannelFutureListener.CLOSE);
+        //加上这个listener后,服务器接收到一次该客户端的请求后就关闭与该客户端的连接，即只进行短连接。
     }
 
     @Override
@@ -34,6 +35,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable t)
             throws Exception {
+        //这里可以在关闭连接之前，给客户端返回一个出现异常的响应码
         ctx.close();
     }
 }
