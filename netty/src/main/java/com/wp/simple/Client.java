@@ -1,4 +1,4 @@
-package com.wp;
+package com.wp.simple;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -31,7 +31,7 @@ public class Client {
         cf1.channel().write(Unpooled.copiedBuffer("666".getBytes()));
 //        Thread.sleep(1000);
         cf1.channel().write(Unpooled.copiedBuffer("555".getBytes()));
-        cf1.channel().flush();  //这里flush后后面的数据可能和本次flush的内容一起发送过去。   例如：本例中可能会收到："Server: 777666555777666555"
+        cf1.channel().flush();  //粘包，，，这里flush后后面的数据可能和本次flush的内容一起发送过去。   例如：本例中可能会收到："Server: 777666555777666555"
 //        Thread.sleep(1000);
 
         //buf

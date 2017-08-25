@@ -1,4 +1,4 @@
-package com.wp;
+package com.wp.simple;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -12,7 +12,6 @@ public class ServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
         count++;
         //do something msg
         ByteBuf buf = (ByteBuf) msg;

@@ -1,4 +1,4 @@
-package com.wp;
+package com.wp.simple;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;

@@ -1,10 +1,6 @@
 package com.wp.ende2;
 
-import java.nio.ByteBuffer;
-
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -12,19 +8,16 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 
 public class Server {
 
 	public static void main(String[] args) throws Exception{
-		//1 创建2个线程，一个是负责接收客户端的连接。一个是负责进行数据传输的
+
 		EventLoopGroup pGroup = new NioEventLoopGroup();
 		EventLoopGroup cGroup = new NioEventLoopGroup();
 		
-		//2 创建服务器辅助类
 		ServerBootstrap b = new ServerBootstrap();
 		b.group(pGroup, cGroup)
 		 .channel(NioServerSocketChannel.class)
@@ -41,15 +34,10 @@ public class Server {
 				sc.pipeline().addLast(new ServerHandler());
 			}
 		});
-		
-		//4 绑定连接
+
 		ChannelFuture cf = b.bind(8765).sync();
-		
-		//等待服务器监听端口关闭
 		cf.channel().closeFuture().sync();
 		pGroup.shutdownGracefully();
 		cGroup.shutdownGracefully();
-		
 	}
-	
 }

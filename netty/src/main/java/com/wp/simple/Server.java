@@ -1,4 +1,4 @@
-package com.wp;
+package com.wp.simple;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
