@@ -7,8 +7,7 @@ import io.netty.channel.socket.DatagramPacket;
 import io.netty.util.CharsetUtil;
 import io.netty.util.internal.ThreadLocalRandom;
 
-public class ServerHandler extends
-        SimpleChannelInboundHandler<DatagramPacket> {
+public class ServerHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
     // 谚语列表
     private static final String[] DICTIONARY = {

@@ -10,12 +10,9 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 
 public class Server {
     public void run(int port) throws Exception {
-
         EventLoopGroup group = new NioEventLoopGroup();
-
         try {
             Bootstrap b = new Bootstrap();
-
             b.group(group).channel(NioDatagramChannel.class)
                     .option(ChannelOption.SO_BROADCAST, true)
                     .handler(new ServerHandler());

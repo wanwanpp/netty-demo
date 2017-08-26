@@ -17,25 +17,25 @@ import java.net.InetSocketAddress;
 public class Client {
 
     public void run(int port) throws Exception {
-		EventLoopGroup group = new NioEventLoopGroup();
-		try {
-		    Bootstrap b = new Bootstrap();
-		    b.group(group).channel(NioDatagramChannel.class)
-			    .option(ChannelOption.SO_BROADCAST, true)
-			    .handler(new ClientHandler());
-		    Channel ch = b.bind(0).sync().channel();
-		    // 向网段内的所有机器广播UDP消息
-		    ch.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("谚语字典查询?", CharsetUtil.UTF_8), 
-		    		new InetSocketAddress("255.255.255.255", port))).sync();
-		    if (!ch.closeFuture().await(15000)) {
-		    	System.out.println("查询超时!");
-		    }
-		} finally {
-		    group.shutdownGracefully();
-		}
+        EventLoopGroup group = new NioEventLoopGroup();
+        try {
+            Bootstrap b = new Bootstrap();
+            b.group(group).channel(NioDatagramChannel.class)
+                    .option(ChannelOption.SO_BROADCAST, true)
+                    .handler(new ClientHandler());
+            Channel ch = b.bind(0).sync().channel();
+            // 向网段内的所有机器广播UDP消息
+            ch.writeAndFlush(new DatagramPacket(Unpooled.copiedBuffer("谚语字典查询?", CharsetUtil.UTF_8),
+                    new InetSocketAddress("255.255.255.255", port))).sync();
+            if (!ch.closeFuture().await(15000)) {
+                System.out.println("查询超时!");
+            }
+        } finally {
+            group.shutdownGracefully();
+        }
     }
 
     public static void main(String[] args) throws Exception {
-    	new Client().run(8765);
+        new Client().run(8765);
     }
 }
