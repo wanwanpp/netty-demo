@@ -11,16 +11,10 @@ import org.jboss.marshalling.MarshallerFactory;
 import org.jboss.marshalling.Marshalling;
 import org.jboss.marshalling.MarshallingConfiguration;
 
-/**
- * Marshalling工厂
- * @author（alienware）
- * @since 2014-12-16
- */
 public final class MarshallingCodeCFactory {
 
     /**
      * 创建Jboss Marshalling解码器MarshallingDecoder
-     * @return MarshallingDecoder
      */
     public static MarshallingDecoder buildMarshallingDecoder() {
     	//首先通过Marshalling工具类的精通方法获取Marshalling实例对象 参数serial标识创建的是java序列化工厂对象。
@@ -37,7 +31,6 @@ public final class MarshallingCodeCFactory {
 
     /**
      * 创建Jboss Marshalling编码器MarshallingEncoder
-     * @return MarshallingEncoder
      */
     public static MarshallingEncoder buildMarshallingEncoder() {
 		final MarshallerFactory marshallerFactory = Marshalling.getProvidedMarshallerFactory("serial");
