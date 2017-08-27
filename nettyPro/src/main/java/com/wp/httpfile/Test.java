@@ -12,7 +12,7 @@ public class Test {
 	
 	public static void main(String[] args) throws Exception{
 		Map<String, String> params = new HashMap<String, String>();
-		byte[] ret = HttpCallerUtils.getStream("com.wp.http://192.168.1.111:8765/images/a.doc", params);
+		byte[] ret = HttpCallerUtils.getStream("http://localhost:8080/sources/a.doc", params);
 		
 		//byte[] ret = HttpProxy.get("http://192.168.1.111:8765/images/006.jpg");
         //写出文件
