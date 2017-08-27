@@ -29,16 +29,14 @@ public class Server {
 			protected void initChannel(SocketChannel sc) throws Exception {
 				sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
 				sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
-				sc.pipeline().addLast(new ReadTimeoutHandler(5)); 
+				sc.pipeline().addLast(new ReadTimeoutHandler(5));
 				sc.pipeline().addLast(new ServerHandler());
 			}
 		});
 		
 		ChannelFuture cf = b.bind(8765).sync();
-		
 		cf.channel().closeFuture().sync();
 		pGroup.shutdownGracefully();
 		cGroup.shutdownGracefully();
-		
 	}
 }

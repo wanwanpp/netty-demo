@@ -88,7 +88,6 @@ public class Client {
 		
 		
 		new Thread(new Runnable() {
-			@Override
 			public void run() {
 				try {
 					System.out.println("进入子线程...");
