@@ -17,11 +17,10 @@
   
       @Override
       public void initChannel(SocketChannel ch) {
-          ChannelPipeline p = ch.pipeline();
           if (sslCtx != null) {
-              p.addLast(sslCtx.newHandler(ch.alloc()));
+              ch.pipeline().addLast(sslCtx.newHandler(ch.alloc()));
           }
-          p.addLast(new HttpServerCodec());
-          p.addLast(new HttpHelloWorldServerHandler());
+          ch.pipeline().addLast(new HttpServerCodec());
+          ch.pipeline().addLast(new HttpHelloWorldServerHandler());
       }
   }

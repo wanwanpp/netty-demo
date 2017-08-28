@@ -37,8 +37,8 @@ import java.util.Map.Entry;
  */
 public final class HttpUploadClient {
 
-    static final String BASE_URL = System.getProperty("baseUrl", "com.wp.http://127.0.0.1:8080/");
-    static final String FILE = System.getProperty("file", "com.wp.upload.txt");
+    static final String BASE_URL = System.getProperty("baseUrl", "http://127.0.0.1:8080/");
+    static final String FILE = System.getProperty("file", "upload.txt");
 
     public static void main(String[] args) throws Exception {
         String postSimple, postFile, get;
@@ -53,18 +53,18 @@ public final class HttpUploadClient {
         }
 
         URI uriSimple = new URI(postSimple);
-        String scheme = uriSimple.getScheme() == null? "com/wp/http" : uriSimple.getScheme();
+        String scheme = uriSimple.getScheme() == null? "http" : uriSimple.getScheme();
         String host = uriSimple.getHost() == null? "127.0.0.1" : uriSimple.getHost();
         int port = uriSimple.getPort();
         if (port == -1) {
-            if ("com/wp/http".equalsIgnoreCase(scheme)) {
+            if ("http".equalsIgnoreCase(scheme)) {
                 port = 80;
             } else if ("https".equalsIgnoreCase(scheme)) {
                 port = 443;
             }
         }
 
-        if (!"com/wp/http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
+        if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
             System.err.println("Only HTTP(S) is supported.");
             return;
         }

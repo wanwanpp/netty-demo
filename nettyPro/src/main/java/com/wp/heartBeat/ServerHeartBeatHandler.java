@@ -53,8 +53,7 @@ public class ServerHeartBeatHandler extends ChannelHandlerAdapter {
 			System.out.println("当前内存使用量: " + memory.get("used"));
 			System.out.println("当前内存剩余量: " + memory.get("free"));
 			System.out.println("--------------------------------------------");
-			
-			ctx.writeAndFlush("info received!");
+            ctx.writeAndFlush("info received!");
 		} else {
 			ctx.writeAndFlush("connect failure!").addListener(ChannelFutureListener.CLOSE);
 		}

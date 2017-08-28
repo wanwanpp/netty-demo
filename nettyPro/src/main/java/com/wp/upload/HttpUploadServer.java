@@ -41,7 +41,7 @@ public final class HttpUploadServer {
             Channel ch = b.bind(PORT).sync().channel();
 
             System.err.println("Open your web browser and navigate to " +
-                    (SSL? "https" : "com/wp/http") + "://127.0.0.1:" + PORT + '/');
+                    (SSL? "https" : "http") + "://127.0.0.1:" + PORT + '/');
 
             ch.closeFuture().sync();
         } finally {

@@ -14,6 +14,17 @@ public class ServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
+//        if (msg instanceof HttpRequest) {
+//            HttpRequest request = (HttpRequest) msg;
+//            System.out.println(request.method());
+//
+//            DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer("<h1>hello</h1>".getBytes()));
+//            response.headers().set(CONTENT_TYPE, "text/html");
+//            response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+//            ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+//            ctx.writeAndFlush("haha".getBytes())
+//                    .addListener(ChannelFutureListener.CLOSE);
+//        }
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
@@ -22,7 +33,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
         String response = "返回给客户端的响应：" + body;
         ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
 //        .addListener(ChannelFutureListener.CLOSE);
-        //加上这个listener后,服务器接收到一次该客户端的请求后就关闭与该客户端的连接，即只进行短连接。
+//        加上这个listener后,服务器接收到一次该客户端的请求后就关闭与该客户端的连接，即只进行短连接。
     }
 
     @Override
