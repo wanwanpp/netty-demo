@@ -46,6 +46,7 @@ public class ClienHeartBeattHandler extends ChannelHandlerAdapter {
                     System.out.println(msg);
                 } else {
                     System.out.println(msg);
+
                 }
             }
         } finally {
