@@ -19,8 +19,9 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.10.Final</version>
+            <version>5.0.0.Alpha2</version>
         </dependency>
+
         <!--编解码-->
         <dependency>
             <groupId>org.jboss.marshalling</groupId>

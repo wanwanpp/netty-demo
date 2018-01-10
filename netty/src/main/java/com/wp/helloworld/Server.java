@@ -1,10 +1,7 @@
 package com.wp.helloworld;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -17,6 +14,12 @@ public class Server {
         // 一旦‘boss’接收到连接，就会把连接信息注册到‘worker’上。
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+        //传统阻塞io
+//        EventLoopGroup bossGroup = new OioEventLoopGroup();
+//        EventLoopGroup workerGroup = new OioEventLoopGroup();
+//        EpollEventLoopGroup仅支持在linux上运行，所以windows上这样写会报错
+//        EventLoopGroup bossGroup = new EpollEventLoopGroup();
+//        EventLoopGroup workerGroup = new EpollEventLoopGroup();
 
         //2 创建辅助工具类，用于服务器通道的一系列配置
         ServerBootstrap b = new ServerBootstrap();
