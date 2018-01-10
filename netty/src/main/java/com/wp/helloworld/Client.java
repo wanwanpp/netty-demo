@@ -23,7 +23,6 @@ public class Client {
                         sc.pipeline().addLast(new ClientHandler());
                     }
                 });
-
         ChannelFuture cf1 = b.connect("127.0.0.1", 8765).sync();
         //ChannelFuture cf2 = b.connect("127.0.0.1", 8764).sync();
         //发送消息

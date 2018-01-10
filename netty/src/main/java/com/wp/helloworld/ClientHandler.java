@@ -20,7 +20,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
 
             String body = new String(req, "utf-8");
             System.out.println("Client :" + body);
-            String response = "收到服务器端的返回信息：" + body;
+//            String response = "收到服务器端的返回信息：" + body;
         } finally {
             ReferenceCountUtil.release(msg);
         }
@@ -28,6 +28,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+//        ctx.close();
     }
 
     @Override

@@ -9,15 +9,12 @@ import org.hyperic.sigar.Sigar;
 
 import java.net.InetAddress;
 import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class ClienHeartBeattHandler extends ChannelHandlerAdapter {
 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
 
     private ScheduledFuture<?> heartBeat;
     //主动向服务器发送认证信息

@@ -40,7 +40,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx)
             throws Exception {
         System.out.println("读完了");
-        ctx.flush();
+//        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override
