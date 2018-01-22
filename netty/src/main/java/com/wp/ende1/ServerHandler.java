@@ -6,10 +6,9 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class ServerHandler extends ChannelHandlerAdapter {
 
-
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		System.out.println(" server channel active... ");
+		System.out.println("server channel active... ");
 	}
 
 	@Override
@@ -37,8 +36,4 @@ public class ServerHandler extends ChannelHandlerAdapter {
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable t) throws Exception {
 		ctx.close();
 	}
-
-
-
-
 }

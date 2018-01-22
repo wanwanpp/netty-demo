@@ -24,8 +24,8 @@ public class Client {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel sc) throws Exception {
-                        //
                         ByteBuf buf = Unpooled.copiedBuffer("$_".getBytes());
+                        //以“$_”分隔消息
                         sc.pipeline().addLast(new DelimiterBasedFrameDecoder(1024, buf));
                         sc.pipeline().addLast(new StringDecoder());
                         sc.pipeline().addLast(new ClientHandler());
