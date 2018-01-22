@@ -28,7 +28,7 @@ public class WebSocketServer {
                             pipeline.addLast("aggregator",
                                     new HttpObjectAggregator(65536));
                             ch.pipeline().addLast("http-chunked",
-                                    new ChunkedWriteHandler());
+                                    new ChunkedWriteHandler());  //支持异步写大型数据，又不会消耗大量的内存。
                             pipeline.addLast("handler",
                                     new WebSocketServerHandler());
                         }
@@ -46,6 +46,6 @@ public class WebSocketServer {
     }
 
     public static void main(String[] args) throws Exception {
-        new WebSocketServer().run(8765);
+        new WebSocketServer().run(8080);
     }
 }

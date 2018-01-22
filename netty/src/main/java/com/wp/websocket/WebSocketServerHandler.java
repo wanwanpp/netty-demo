@@ -6,6 +6,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderUtil;
@@ -14,6 +15,9 @@ import io.netty.util.CharsetUtil;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> {
     private static final Logger logger = Logger.getLogger(WebSocketServerHandler.class.getName());
@@ -24,11 +28,11 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
     public void messageReceived(ChannelHandlerContext ctx, Object msg)
             throws Exception {
         // 传统的HTTP接入
-        if (msg instanceof FullHttpRequest) {
+        if (msg instanceof FullHttpRequest) {   //这里处理websocket的请求
             handleHttpRequest(ctx, (FullHttpRequest) msg);
         }
         // WebSocket接入
-        else if (msg instanceof WebSocketFrame) {
+        else if (msg instanceof WebSocketFrame) {   //这里处理websocket数据交互
             handleWebSocketFrame(ctx, (WebSocketFrame) msg);
         }
     }
@@ -40,10 +44,10 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
     private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
         // 如果HTTP解码失败，返回HTTP异常
-//        if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
-//            sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
-//            return;
-//        }
+        if (!req.decoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
+            sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
+            return;
+        }
 
         // 构造握手响应返回，本机测试
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory("ws://localhost:8080/websocket", null, false);
@@ -75,8 +79,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
         // 返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(String.format("%s received %s", ctx.channel(), request));
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(String.format("%s received %s", ctx.channel(), request));
         }
         ctx.channel().write(new TextWebSocketFrame(request + " , 欢迎使用Netty WebSocket服务，现在时刻：" + new java.util.Date().toString()));
     }
