@@ -30,11 +30,13 @@ public class Client {
 //        Thread.sleep(1000);
         cf1.channel().write(Unpooled.copiedBuffer("666".getBytes()));
 //        Thread.sleep(1000);
+        //write是将数据写入netty的缓冲区中
         cf1.channel().write(Unpooled.copiedBuffer("555".getBytes()));
-        cf1.channel().flush();  //粘包，，，这里flush后后面的数据可能和本次flush的内容一起发送过去。   例如：本例中可能会收到："Server: 777666555777666555"
+        //flush是将netty中的数据放入socket缓冲区中
+        cf1.channel().flush();  //粘包，这里flush后后面的数据可能和本次flush的内容一起发送过去。   例如：本例中可能会收到："Server: 777666555777666555"
 //        Thread.sleep(1000);
 
-        //buf
+        //writeAndFlush就是write和flush两个过程。
         cf1.channel().writeAndFlush(Unpooled.copiedBuffer("777".getBytes()));
 //        Thread.sleep(1000);
         cf1.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));
