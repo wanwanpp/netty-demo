@@ -12,10 +12,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<DatagramPacket> {
     public void messageReceived(ChannelHandlerContext ctx, DatagramPacket msg)
 	    throws Exception {
 		String response = msg.content().toString(CharsetUtil.UTF_8);
-		if (response.startsWith("谚语查询结果: ")) {
 		    System.out.println(response);
-		    ctx.close();
-		}
     }
 
     @Override

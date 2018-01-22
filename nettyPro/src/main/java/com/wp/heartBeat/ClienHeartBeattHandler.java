@@ -38,7 +38,7 @@ public class ClienHeartBeattHandler extends ChannelHandlerAdapter {
             if (msg instanceof String) {
                 String ret = (String) msg;
                 if (SUCCESS_KEY.equals(ret)) {
-                    // 握手成功，主动发送心跳消息
+                    // 握手成功，定时发送心跳消息
                     this.heartBeat = this.scheduler.scheduleWithFixedDelay(new HeartBeatTask(ctx), 0, 2, TimeUnit.SECONDS);
                     System.out.println(msg);
                 } else {
@@ -49,6 +49,16 @@ public class ClienHeartBeattHandler extends ChannelHandlerAdapter {
         } finally {
             ReferenceCountUtil.release(msg);
         }
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        if (heartBeat != null) {
+            heartBeat.cancel(true);
+            heartBeat = null;
+        }
+        ctx.fireExceptionCaught(cause);
     }
 
     private class HeartBeatTask implements Runnable {
@@ -86,15 +96,5 @@ public class ClienHeartBeattHandler extends ChannelHandlerAdapter {
                 e.printStackTrace();
             }
         }
-
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-            cause.printStackTrace();
-            if (heartBeat != null) {
-                heartBeat.cancel(true);
-                heartBeat = null;
-            }
-            ctx.fireExceptionCaught(cause);
-        }
-
     }
 }

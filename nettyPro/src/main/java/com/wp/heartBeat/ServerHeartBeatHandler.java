@@ -58,6 +58,4 @@ public class ServerHeartBeatHandler extends ChannelHandlerAdapter {
 			ctx.writeAndFlush("connect failure!").addListener(ChannelFutureListener.CLOSE);
 		}
     }
-
-
 }
