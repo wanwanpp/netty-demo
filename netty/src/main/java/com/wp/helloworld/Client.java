@@ -26,12 +26,12 @@ public class Client {
         ChannelFuture cf1 = b.connect("127.0.0.1", 8765).sync();
         //ChannelFuture cf2 = b.connect("127.0.0.1", 8764).sync();
         //发送消息
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
         cf1.channel().writeAndFlush(Unpooled.copiedBuffer("777".getBytes()));
-        cf1.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));
-        //cf2.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
-        Thread.sleep(2000);
-        cf1.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
+//        cf1.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));
+//        //cf2.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
+//        Thread.sleep(2000);
+//        cf1.channel().writeAndFlush(Unpooled.copiedBuffer("888".getBytes()));
         //cf2.channel().writeAndFlush(Unpooled.copiedBuffer("666".getBytes()));
 
         cf1.channel().closeFuture().sync();

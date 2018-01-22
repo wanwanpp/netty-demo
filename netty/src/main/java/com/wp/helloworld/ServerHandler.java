@@ -2,8 +2,16 @@ package com.wp.helloworld;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+
+import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_LENGTH;
+import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
@@ -15,17 +23,18 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-//        if (msg instanceof HttpRequest) {
-//            HttpRequest request = (HttpRequest) msg;
-//            System.out.println(request.method());
-//
-//            DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer("<h1>hello</h1>".getBytes()));
-//            response.headers().set(CONTENT_TYPE, "text/html");
-//            response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
-//            ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-//            ctx.writeAndFlush("haha".getBytes())
-//                    .addListener(ChannelFutureListener.CLOSE);
-//        }
+        //接收http请求，若没有在pipeline中加上http编码器，这里是不能转为HttpRequest类型的
+        if (msg instanceof HttpRequest) {
+            HttpRequest request = (HttpRequest) msg;
+            System.out.println(request.method());
+
+            DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer("<h1>hello</h1>".getBytes()));
+            response.headers().set(CONTENT_TYPE, "text/html");
+            response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+            ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+            ctx.writeAndFlush("haha".getBytes())
+                    .addListener(ChannelFutureListener.CLOSE);
+        }
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);

@@ -1,10 +1,14 @@
 package com.wp.helloworld;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpServerCodec;
 
 public class Server {
     public static void main(String[] args) throws Exception {
@@ -33,7 +37,7 @@ public class Server {
                     @Override
                     protected void initChannel(SocketChannel sc) throws Exception {
                         //3 在这里配置具体数据接收方法的处理
-//                        sc.pipeline().addLast(new HttpServerCodec());   //添加这个后，可以将获取的msg直接转为HttpRequest类型。
+                        sc.pipeline().addLast(new HttpServerCodec());   //添加这个后，可以将获取的msg直接转为HttpRequest类型，编码器。
                         sc.pipeline().addLast(new ServerHandler());
                     }
                 });
