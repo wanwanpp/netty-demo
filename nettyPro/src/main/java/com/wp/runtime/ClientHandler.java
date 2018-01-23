@@ -8,7 +8,6 @@ public class ClientHandler extends ChannelHandlerAdapter{
 	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
 	}
 
 	@Override
