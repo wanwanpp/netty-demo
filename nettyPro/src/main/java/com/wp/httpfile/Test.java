@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Test {
-
-	
 	public static void main(String[] args) throws Exception{
 		Map<String, String> params = new HashMap<String, String>();
 		byte[] ret = HttpCallerUtils.getStream("http://localhost:8080/sources/a.doc", params);
@@ -20,7 +18,5 @@ public class Test {
         FileOutputStream fos = new FileOutputStream(writePath);
         fos.write(ret);
         fos.close();    
-		
-		
 	}
 }

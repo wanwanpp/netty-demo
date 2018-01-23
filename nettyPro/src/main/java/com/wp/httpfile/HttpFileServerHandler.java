@@ -44,7 +44,7 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         }
         //获取请求uri路径
         final String uri = request.uri();
-        //对url进行分析，返回本地系统
+        //对url进行分析，返回本地文件系统目录
         final String path = sanitizeUri(uri);
         //如果 路径构造不合法，则path为null
         if (path == null) {
@@ -90,13 +90,10 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 
         //获取文件长度
         long fileLength = randomAccessFile.length();
-        //建立响应对象
         HttpResponse response = new DefaultHttpResponse(HTTP_1_1, OK);
-        //设置响应信息
-        HttpHeaderUtil.setContentLength(response, fileLength);
-//        response.headers().setInt(CONTENT_LENGTH, (int) fileLength);
-        //设置响应头,返回文件类型。
-        setContentTypeHeader(response, file);
+        response.headers().setLong(CONTENT_LENGTH, fileLength);
+//        HttpHeaderUtil.setContentLength(response, fileLength);
+        response.headers().set(CONTENT_TYPE, new MimetypesFileTypeMap().getContentType(file));
         //如果一直保持连接则设置响应头信息为：HttpHeaders.Values.KEEP_ALIVE
         if (HttpHeaderUtil.isKeepAlive(request)) {
             response.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
@@ -105,9 +102,9 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         ctx.write(response);
 
         //构造发送文件线程，将文件写入到Chunked缓冲区中
-        ChannelFuture sendFileFuture;
         //写出ChunkedFile
-        sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLength, 8192), ctx.newProgressivePromise());
+        ChannelFuture sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLength, 8192),
+                ctx.newProgressivePromise());
         //添加传输监听
         sendFileFuture.addListener(new ChannelProgressiveFutureListener() {
             public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) {
@@ -144,13 +141,6 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
     //非法URI正则
     private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 
-    /**
-     * <B>方法名称：</B>解析URI<BR>
-     * <B>概要说明：</B>对URI进行分析<BR>
-     *
-     * @param uri netty包装后的字符串对象
-     * @return path 解析结果
-     */
     private String sanitizeUri(String uri) {
         try {
             //使用UTF-8字符集
@@ -255,11 +245,5 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
         //使用ctx对象写出并且刷新到SocketChannel中去 并主动关闭连接(这里是指关闭处理发送数据的线程连接)
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-    }
-
-    private static void setContentTypeHeader(HttpResponse response, File file) {
-        //使用mime对象获取文件类型
-        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-        response.headers().set(CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
     }
 }

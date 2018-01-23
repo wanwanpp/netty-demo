@@ -30,5 +30,4 @@ public class ClientHandler extends ChannelHandlerAdapter{
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		ctx.close();
 	}
-	
 }
