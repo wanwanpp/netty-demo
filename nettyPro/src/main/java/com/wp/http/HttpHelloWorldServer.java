@@ -18,16 +18,17 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
  */
 public final class HttpHelloWorldServer {
 
-    static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("port", SSL ? "8443" : "8080"));
-
     public static void main(String[] args) throws Exception {
         // Configure SSL.
         final SslContext sslCtx;
-        if (SSL) {
+        final boolean ssl = true;
+        int port;
+        if (ssl) {
+            port = 8443;
             SelfSignedCertificate ssc = new SelfSignedCertificate();
             sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());
         } else {
+            port = 8080;
             sslCtx = null;
         }
 
@@ -42,17 +43,12 @@ public final class HttpHelloWorldServer {
                     .handler(new LoggingHandler(LogLevel.INFO))  //handler是添加ServerChannel的handler
                     .childHandler(new HttpHelloWorldServerInitializer(sslCtx));//childHandler是添加Channel的Handler。
 
-            Channel ch = b.bind(PORT).sync().channel();
-
-            System.err.println("Open your web browser and navigate to " +
-                    (SSL ? "https" : "http") + "://127.0.0.1:" + PORT + '/');
-
+            Channel ch = b.bind(port).sync().channel();
+            System.err.println("Open your web browser and navigate to " + (ssl ? "https" : "http") + "://127.0.0.1:" + port + '/');
             ch.closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
     }
-
-
 }

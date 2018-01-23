@@ -29,8 +29,8 @@ public class HttpHelloWorldServerHandler extends ChannelHandlerAdapter {
         if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;
             String uri = req.uri();
-            if (uri.equals("/haha")){
-                CONTENT="haha".getBytes();
+            if (uri.equals("/haha")) {
+                CONTENT = "haha".getBytes();
             }
 
             if (HttpHeaderUtil.is100ContinueExpected(req)) {
@@ -38,10 +38,11 @@ public class HttpHelloWorldServerHandler extends ChannelHandlerAdapter {
             }
             boolean keepAlive = HttpHeaderUtil.isKeepAlive(req);
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT));
-            response.headers().set(CONTENT_TYPE, "text/plain");
-//            response.headers().set(CONTENT_TYPE, "text/html");//返回html。
-            response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+//            response.headers().set(CONTENT_TYPE, "text/plain");
+            response.headers().set(CONTENT_TYPE, "text/html");//返回html。
+            response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());//必须要在响应头中设置这个信息
 
+//            若不是keepalive，则发送响应后就关闭连接
             if (!keepAlive) {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
