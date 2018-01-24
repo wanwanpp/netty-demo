@@ -1,4 +1,4 @@
-package com.wp.bio2;
+package com.wp.biowithexecutor;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;

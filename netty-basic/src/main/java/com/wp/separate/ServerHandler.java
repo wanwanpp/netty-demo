@@ -1,4 +1,4 @@
-package com.wp.ende1;
+package com.wp.separate;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;

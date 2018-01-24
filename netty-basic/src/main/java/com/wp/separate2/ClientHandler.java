@@ -1,8 +1,7 @@
-package com.wp.ende1;
+package com.wp.separate2;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.ReferenceCountUtil;
 
 public class ClientHandler extends ChannelHandlerAdapter{
 
@@ -13,12 +12,8 @@ public class ClientHandler extends ChannelHandlerAdapter{
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		try {
-			String response = (String)msg;
-			System.out.println("Client: " + response);
-		} finally {
-			ReferenceCountUtil.release(msg);
-		}
+		String response = (String)msg;
+		System.out.println("Client: " + response);
 	}
 
 	@Override
@@ -27,7 +22,6 @@ public class ClientHandler extends ChannelHandlerAdapter{
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		ctx.close();
 	}
 
 }
