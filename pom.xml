@@ -8,13 +8,13 @@
   <artifactId>netty-application</artifactId>
   <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>netty</module>
+        <module>netty-basic</module>
         <module>netty-pro</module>
         <module>io-model</module>
     </modules>
     <packaging>pom</packaging>
 
-  <name>Nio-Netty</name>
+  <name>netty-application</name>
   <url>com.wp.http://maven.apache.org</url>
 
   <properties>
