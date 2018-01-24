@@ -62,10 +62,5 @@ public class GzipUtils {
         FileOutputStream fos = new FileOutputStream(writePath);
         fos.write(ret2);
         fos.close();    	
-    	
-    	
 	}
-    
-    
-    
 }
