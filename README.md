@@ -15,6 +15,5 @@
     - websocket （websocket 协议应用）
  3. netty-pro （进阶使用）
     - heartbeat （心跳，客户端定时将本机基本信息发送至服务器）
-    
     - filedownload （基于http的文件下载服务器）
 
