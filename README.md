@@ -1,6 +1,8 @@
 # netty-demo
-## 项目分为三个模块：
+## 项目介绍
+   本项目包含**三种IO模型的使用**以及**对于Netty的基本应用**，适合Netty初学者学习。
 
+## 项目结构
 ### 1. **io-model** （三种io模型下的socket）
  - bio （传统阻塞io模型）
  - biowithexecutor （阻塞io加上线程池）
